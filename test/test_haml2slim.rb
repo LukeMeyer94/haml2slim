@@ -10,6 +10,12 @@ class TestHaml2Slim < MiniTest::Unit::TestCase
     cleanup_tmp_files
   end
 
+  def test_new_syntax_hash_convert
+    haml = '%a{title: 1 + 1, href: "/#{test_obj.method}", height: "50px", width: "50px"}'
+    slim = 'a title=(1 + 1) href="/#{test_obj.method}" height="50px" width="50px"'
+    assert_haml_to_slim haml, slim
+  end
+
   Dir.glob("test/fixtures/*.haml").each do |file|
     define_method("test_template_#{File.basename(file, '.haml')}") do
       assert_valid?(file)
